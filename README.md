@@ -42,7 +42,7 @@ Não vamos instalar nada! Vamos usar um computador na nuvem.
 3.  Clique no botão verde **Create codespace on main**.
 4.  Aguarde o ambiente carregar no seu navegador.
 
-### 3. Branch (Ramo) 🌿
+### 3. Branch 🌿
 
 Nunca trabalhe diretamente na `main`! Vamos criar uma branch separada para a sua contribuição.
 
@@ -73,15 +73,7 @@ Agora vem a parte divertida! Vamos adicionar sua gambiarra usando o poder do Cha
 ### 5. Testando no Navegador 🧪
 
 Antes de enviar, veja se funcionou!
-
-1.  No terminal, inicie um servidor simples:
-    ```bash
-    python3 -m http.server
-    ```
-2.  O Codespaces mostrará um aviso no canto inferior direito: "Your application is running on port 8000".
-3.  Clique em **Open in Browser**.
-4.  Veja sua gambiarra no mural! 🎉
-5.  Para parar o servidor, clique no terminal e pressione `Ctrl+C`.
+Instale a extensão Live Server e teste.
 
 ### 6. Commit e Push upload 📤
 
@@ -92,6 +84,8 @@ git add data/messages.json
 git commit -m "Adiciona gambiarra de [Seu Nome]"
 git push origin gambiarra-SEUNOME
 ```
+
+Você também pode pedir para o Copilot criar o PR para você !
 
 ### 7. Pull Request (PR) 🔀
 
@@ -114,30 +108,9 @@ Experimente perguntar essas coisas para o Copilot Chat durante o workshop:
 *   `Explique o que o arquivo css/style.css está fazendo com as cores dos cards.`
 *   `Como eu posso melhorar a acessibilidade do index.html?`
 
----
-
-## 🌐 Visualizando Online (GitHub Pages)
-
-Este projeto é compatível com o **GitHub Pages**! Para colocar seu mural no ar:
-
-1.  Vá na aba **Settings** do seu repositório no GitHub.
-2.  No menu lateral esquerdo, clique em **Pages**.
-3.  Em **Source**, selecione `Deploy from a branch`.
-4.  Em **Branch**, selecione `main` e a pasta `/ (root)`.
-5.  Clique em **Save**.
-6.  Aguarde alguns instantes e atualize a página. O GitHub fornecerá o link do seu site!
 
 ---
 
-## 🆘 Precisa de ajuda?
-
-Se algo der errado:
-
-1.  Verifique se você colocou a **vírgula** `,` depois do objeto anterior no JSON.
-2.  Confira se fechou as chaves `{}` e colchetes `[]` corretamente.
-3.  Chame um dos instrutores!
-
----
 
 ## 🎯 Fase 2: Resolva uma Issue e Contribua com uma Feature
 
@@ -147,7 +120,7 @@ Agora que você já sabe como contribuir, é hora de resolver um problema real! 
 
 1.  **Escolha uma Issue:**
     *   Vá para o arquivo [`ISSUES.md`](ISSUES.md) ou acesse a aba **Issues** no GitHub
-    *   Escolha uma issue que te interesse (recomendamos começar pelas mais fáceis ⭐)
+    *   Escolha uma issue que te interesse
     *   Deixe um comentário dizendo que vai trabalhar nela para evitar duplicação!
 
 2.  **Crie uma Nova Branch:**
@@ -163,10 +136,7 @@ Agora que você já sabe como contribuir, é hora de resolver um problema real! 
     *   Deixe o Copilot te guiar na implementação!
 
 4.  **Teste Suas Mudanças:**
-    ```bash
-    python3 -m http.server
-    ```
-    *   Abra no navegador e teste se funciona corretamente
+Live Server xD
 
 5.  **Commit e Push:**
     ```bash
@@ -174,6 +144,8 @@ Agora que você já sabe como contribuir, é hora de resolver um problema real! 
     git commit -m "Implementa [nome da feature] - closes #número-da-issue"
     git push origin feature/nome-da-feature
     ```
+
+    Ou peça pro Copilot criar o PR
 
 6.  **Abra o Pull Request:**
     *   Na descrição, mencione qual issue você está resolvendo
@@ -185,7 +157,6 @@ Agora que você já sabe como contribuir, é hora de resolver um problema real! 
 ## 🌟 Dicas para a Fase 2
 
 - **Comunique-se:** Se tiver dúvidas sobre uma issue, pergunte!
-- **Comece simples:** Escolha issues marcadas como ⭐ (Fácil) primeiro
 - **Use o Copilot:** Ele pode explicar o código existente e sugerir implementações
 - **Teste bem:** Garanta que sua feature funciona antes de abrir o PR
 - **Peça review:** Não tenha vergonha de pedir feedback!
