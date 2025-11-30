@@ -27,6 +27,22 @@
     </header>
 
     <main class="container">
+        <!-- Estatísticas: gráfico de gambiarras por data -->
+        <section class="stats-section">
+            <details id="stats-details">
+                <summary>📊 Estatísticas</summary>
+                <div class="stats-controls">
+                    <label for="chart-type-select">Tipo:</label>
+                    <select id="chart-type-select">
+                        <option value="bar">Barras</option>
+                        <option value="line">Linha</option>
+                    </select>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="gambiarra-stats-chart" width="800" height="250"></canvas>
+                </div>
+            </details>
+        </section>
         <section id="daily-gambiarra-section" class="daily-gambiarra-section" style="display: none;" aria-label="Gambiarra do Dia">
             <!-- A Gambiarra do Dia será inserida aqui via JavaScript -->
         </section>
@@ -51,6 +67,8 @@
         <p>Feito com 💜 na GambiConf</p>
     </footer>
 
+    <!-- Chart.js CDN (leve e fácil de usar) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div id="qr-modal" class="qr-modal" aria-hidden="true" style="display:none;">
         <div class="qr-overlay" tabindex="-1" data-action="close-qr"></div>
         <div class="qr-dialog" role="dialog" aria-modal="true" aria-labelledby="qr-title">

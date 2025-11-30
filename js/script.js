@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const randomBtn = document.getElementById('random-highlight-btn');
     let colorPalette = [];
     let allMessages = [];
+    let statsChart = null;
 
     // ============ DARK MODE ============
     // Inicializa o tema baseado na preferência salva ou preferência do sistema
@@ -275,6 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const messages = await response.json();
             allMessages = Array.isArray(messages) ? messages : [];
             renderMessages(allMessages);
+            renderStats(allMessages); // Atualiza as estatísticas ao carregar
             buildStats(allMessages);
         } catch (error) {
             console.error('Erro:', error);
@@ -297,6 +299,119 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = createMessageCard(msg, index);
             messagesContainer.appendChild(card);
         });
+        // Atualiza o gráfico quando a lista exibida muda (por exemplo, pela busca)
+        renderStats(messages);
+    }
+
+    // ---------- Estatísticas e gráfico ----------
+    function aggregateByDate(messages) {
+        const counts = {};
+        messages.forEach(m => {
+            if (!m || !m.date) return;
+            // Normaliza para formato YYYY-MM-DD
+            try {
+                const d = new Date(m.date);
+                if (isNaN(d.getTime())) return;
+                const key = d.toISOString().slice(0,10);
+                counts[key] = (counts[key] || 0) + 1;
+            } catch (e) {
+                // se falhar, ignora
+            }
+        });
+        return counts;
+    }
+
+    function prepareChartData(counts) {
+        const entries = Object.entries(counts)
+            .sort((a,b) => new Date(a[0]) - new Date(b[0]));
+        const labels = entries.map(e => e[0]);
+        const data = entries.map(e => e[1]);
+        return { labels, data };
+    }
+
+    function renderStats(messages) {
+        const chartCanvas = document.getElementById('gambiarra-stats-chart');
+        const chartTypeSelect = document.getElementById('chart-type-select');
+        if (!chartCanvas) return; // nada a fazer
+
+        const counts = aggregateByDate(messages);
+        const { labels, data } = prepareChartData(counts);
+
+        // Dataset e cor
+        const color = colorPalette.length ? colorPalette[0] : '#ff7b72';
+
+        const ctx = chartCanvas.getContext('2d');
+
+        // Se Chart.js não estiver disponível (ex.: CDN bloqueado), mostra mensagem
+        if (typeof Chart === 'undefined') {
+            chartCanvas.parentElement.innerHTML = '<p class="error">Gráfico indisponível (Chart.js não carregado)</p>';
+            return;
+        }
+
+        const requestedType = chartTypeSelect ? chartTypeSelect.value : 'bar';
+
+        if (statsChart) {
+            // atualiza dados existentes
+            statsChart.config.type = requestedType;
+            statsChart.data.labels = labels;
+            statsChart.data.datasets[0].data = data;
+            statsChart.update();
+        } else {
+            // se não há dados (labels vazios), desenha um pequeno placeholder no canvas
+            if (!labels.length) {
+                ctx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
+                ctx.font = '14px Inter, sans-serif';
+                ctx.fillStyle = '#666';
+                ctx.textAlign = 'center';
+                ctx.fillText('Nenhuma gambiarra com data encontrada', chartCanvas.width / 2, chartCanvas.height / 2);
+                return;
+            }
+            statsChart = new Chart(ctx, {
+                type: requestedType,
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Gambiarras por data',
+                        data,
+                        backgroundColor: color,
+                        borderColor: color,
+                        borderWidth: 1,
+                        fill: requestedType === 'line' ? false : true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            ticks: { maxRotation: 0, autoSkip: true },
+                            grid: { display: false }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            precision: 0
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { mode: 'index', intersect: false }
+                    }
+                }
+            });
+        }
+
+        // evento para mudar tipo do gráfico
+        if (chartTypeSelect) {
+            chartTypeSelect.onchange = () => {
+                if (!statsChart) return;
+                const newType = chartTypeSelect.value;
+                statsChart.config.type = newType;
+                // Corrige o fill para line/bar
+                statsChart.data.datasets.forEach(ds => ds.fill = newType === 'line' ? false : true);
+                statsChart.update();
+            };
+        }
     }
 
     // Função para copiar texto para a área de transferência
