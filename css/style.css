@@ -585,3 +585,22 @@ body.dark-mode .stat-snippet {
 .qr-body img { width: 280px; height: 280px; max-width: 100%; border-radius: 6px; background: white; padding: 8px; }
 
 .sr-only { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px,1px,1px,1px); white-space: nowrap; }
+
+/* ===== GIF Overlay ===== */
+.gif-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none; /* não bloqueia interação com a página */
+}
+
+.gif-item {
+    position: absolute;
+    image-rendering: auto;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+    transition: transform 0.3s ease;
+}
+
+.gif-item:hover {
+    transform: scale(1.05);
+}

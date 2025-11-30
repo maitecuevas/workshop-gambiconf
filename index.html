@@ -50,6 +50,7 @@
         <section class="search-bar">
             <input id="search-input" type="text" placeholder="Buscar gambiarras por texto ou autor..." aria-label="Buscar gambiarras" />
             <button id="random-highlight-btn" class="btn" type="button" aria-label="Destacar gambiarra aleatória">🎲 Destacar aleatória</button>
+            <button id="add-gif-btn" class="btn" type="button" aria-label="Adicionar GIF aleatório">✨ GIF aleatório</button>
         </section>
         <div id="messages-container" class="messages-grid">
             <!-- As gambiarras serão carregadas aqui via JavaScript -->
@@ -61,6 +62,8 @@
                 <div class="stat-card loading">Calculando estatísticas...</div>
             </div>
         </section>
+        <!-- Overlay para GIFs aleatórios -->
+        <div id="gif-overlay" class="gif-overlay" aria-hidden="true"></div>
     </main>
 
     <footer>

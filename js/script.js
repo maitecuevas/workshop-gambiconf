@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const themeToggle = document.getElementById('theme-toggle');
     const randomBtn = document.getElementById('random-highlight-btn');
+    const addGifBtn = document.getElementById('add-gif-btn');
+    const gifOverlay = document.getElementById('gif-overlay');
     let colorPalette = [];
     let allMessages = [];
     let statsChart = null;
@@ -698,6 +700,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await loadMessages();
         setupSearch();
         setupRandomHighlight();
+        setupRandomGif();
     }
 
     init();
@@ -761,6 +764,49 @@ document.addEventListener('DOMContentLoaded', () => {
             // Breve foco visual (opcional) para acessibilidade
             chosen.setAttribute('tabindex', '-1');
             chosen.focus({ preventScroll: true });
+        });
+    }
+
+    // ===== GIF aleatório =====
+    // Fonte pública sem chave: cataas.com (Cat as a Service)
+    // Para usar Giphy/Tenor com API key, trocar por uma chamada fetch
+    function setupRandomGif() {
+        if (!addGifBtn || !gifOverlay) return;
+
+        const randomBetween = (min, max) => {
+            if (max <= min) return min;
+            return Math.random() * (max - min) + min;
+        };
+
+        addGifBtn.addEventListener('click', () => {
+            const img = document.createElement('img');
+            img.className = 'gif-item';
+
+            // Tamanho aleatório
+            const width = Math.round(randomBetween(140, 280));
+            img.style.width = width + 'px';
+
+            // Escolhe uma fonte aleatória: cataas random gif
+            // Usamos um param random para evitar cache
+            img.src = `https://cataas.com/cat/gif?${Date.now()}_${Math.floor(Math.random()*100000)}`;
+
+            // Quando carregar, posiciona em um ponto aleatório da viewport
+            img.onload = () => {
+                const overlayRect = gifOverlay.getBoundingClientRect();
+                const h = img.naturalHeight * (width / img.naturalWidth);
+                const maxLeft = Math.max(0, overlayRect.width - width);
+                const maxTop = Math.max(0, overlayRect.height - h);
+
+                const left = Math.round(randomBetween(0, maxLeft));
+                const top = Math.round(randomBetween(0, maxTop));
+                const rotate = Math.round(randomBetween(-12, 12));
+
+                img.style.left = left + 'px';
+                img.style.top = top + 'px';
+                img.style.transform = `rotate(${rotate}deg)`;
+            };
+
+            gifOverlay.appendChild(img);
         });
     }
 
