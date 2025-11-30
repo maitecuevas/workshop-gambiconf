@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const messagesContainer = document.getElementById('messages-container');
     const searchInput = document.getElementById('search-input');
+    const randomBtn = document.getElementById('random-highlight-btn');
     let colorPalette = [];
     let allMessages = [];
 
@@ -156,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await loadColorPalette();
         await loadMessages();
         setupSearch();
+        setupRandomHighlight();
     }
 
     init();
@@ -194,5 +196,31 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         searchInput.addEventListener('input', debounce(handleSearch, 150));
+    }
+
+    // Configura destaque aleatório e scroll
+    function setupRandomHighlight() {
+        if (!randomBtn) return;
+
+        randomBtn.addEventListener('click', () => {
+            const cards = messagesContainer.querySelectorAll('.message-card');
+            if (!cards.length) return;
+
+            // Remove destaque anterior
+            messagesContainer.querySelectorAll('.message-card.highlight')
+                .forEach(el => el.classList.remove('highlight'));
+
+            // Escolhe um card aleatório visível
+            const idx = Math.floor(Math.random() * cards.length);
+            const chosen = cards[idx];
+            chosen.classList.add('highlight');
+
+            // Role suavemente até o card
+            chosen.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Breve foco visual (opcional) para acessibilidade
+            chosen.setAttribute('tabindex', '-1');
+            chosen.focus({ preventScroll: true });
+        });
     }
 });
