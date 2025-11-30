@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==================== Date-Based Seeding ====================
     
     /**
-     * Gera um índice consistente baseado na data do dia
-     * Mesma data sempre gera o mesmo índice
-     * @returns {number} Índice para selecionar a gambiarra do dia
+     * Gera um valor seed consistente baseado na data do dia
+     * Mesma data sempre gera o mesmo valor seed
+     * @returns {number} Valor seed baseado na data no formato YYYYMMDD (ex: 20251130 para 30/11/2025)
      */
     function generateDayBasedIndex() {
         const today = new Date();
