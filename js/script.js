@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const messagesContainer = document.getElementById('messages-container');
+    const searchInput = document.getElementById('search-input');
     let colorPalette = [];
+    let allMessages = [];
 
     // Função para extrair cores dominantes de uma imagem
     function extractColorsFromImage(imagePath) {
@@ -88,7 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Não foi possível carregar as mensagens');
             }
             const messages = await response.json();
-            renderMessages(messages);
+            allMessages = Array.isArray(messages) ? messages : [];
+            renderMessages(allMessages);
         } catch (error) {
             console.error('Erro:', error);
             messagesContainer.innerHTML = '<p class="error">Ops! Ocorreu um erro ao carregar os recados.</p>';
@@ -152,7 +155,44 @@ document.addEventListener('DOMContentLoaded', () => {
     async function init() {
         await loadColorPalette();
         await loadMessages();
+        setupSearch();
     }
 
     init();
+
+    // Configura busca em tempo real
+    function setupSearch() {
+        if (!searchInput) return;
+
+        const debounce = (fn, delay = 200) => {
+            let t;
+            return (...args) => {
+                clearTimeout(t);
+                t = setTimeout(() => fn(...args), delay);
+            };
+        };
+
+        const handleSearch = () => {
+            const q = (searchInput.value || '').trim().toLowerCase();
+            if (!q) {
+                renderMessages(allMessages);
+                return;
+            }
+
+            const filtered = allMessages.filter(m => {
+                const msgText = (m.message || '').toLowerCase();
+                const author = (m.name || '').toLowerCase();
+                const date = (m.date || '').toLowerCase();
+                return (
+                    msgText.includes(q) ||
+                    author.includes(q) ||
+                    date.includes(q)
+                );
+            });
+
+            renderMessages(filtered);
+        };
+
+        searchInput.addEventListener('input', debounce(handleSearch, 150));
+    }
 });
