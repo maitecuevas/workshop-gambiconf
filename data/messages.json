@@ -33,5 +33,10 @@
     "name": "manakinha",
     "message": "PODE DIGITAR ERRADO QUEO COPILORE ENTENTE, meu nome é manakinha",
     "date": "2025-11-30"
+  },
+  {
+    "name": "instrutor_main",
+    "message": "Essa gambiarra foi adicionada em main - vai gerar conflito!",
+    "date": "2025-11-30"
   }
 ]
