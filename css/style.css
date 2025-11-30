@@ -1,17 +1,17 @@
 :root {
-    --primary-color: #ff7b00;
-    --bg-color: #f6f8fa;
+    --primary-color: #ff69b4;
+    --bg-color: #fffaf0;
     --card-bg: #ffffff;
-    --text-color: #24292e;
-    --accent-color: #2dba4e;
+    --text-color: #2d1b4e;
+    --accent-color: #87ceeb;
 }
 
 body.dark-mode {
-    --bg-color: #0d1117;
-    --card-bg: #161b22;
-    --text-color: #e6edf3;
-    --primary-color: #ff7b00;
-    --accent-color: #2dba4e;
+    --bg-color: #1a1a2e;
+    --card-bg: #2d2d44;
+    --text-color: #f0f0f0;
+    --primary-color: #ff69b4;
+    --accent-color: #87ceeb;
 }
 
 * {
