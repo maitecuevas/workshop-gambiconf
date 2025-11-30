@@ -1,9 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
     const messagesContainer = document.getElementById('messages-container');
     const searchInput = document.getElementById('search-input');
+    const themeToggle = document.getElementById('theme-toggle');
     const randomBtn = document.getElementById('random-highlight-btn');
     let colorPalette = [];
     let allMessages = [];
+
+    // ============ DARK MODE ============
+    // Inicializa o tema baseado na preferência salva ou preferência do sistema
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+
+        if (isDark) {
+            document.body.classList.add('dark-mode');
+            updateThemeIcon(true);
+        } else {
+            document.body.classList.remove('dark-mode');
+            updateThemeIcon(false);
+        }
+    }
+
+    // Atualiza o ícone do botão
+    function updateThemeIcon(isDark) {
+        if (themeToggle) {
+            themeToggle.innerHTML = isDark ? '☀️' : '🌙';
+            themeToggle.title = isDark ? 'Light Mode' : 'Dark Mode';
+        }
+    }
+
+    // Toggle do tema
+    function toggleTheme() {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeIcon(isDark);
+    }
+
+    // Event listener do botão
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    // Inicializa o tema
+    initTheme();
 
     // Função para extrair cores dominantes de uma imagem
     function extractColorsFromImage(imagePath) {
