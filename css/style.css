@@ -108,6 +108,58 @@ header p {
     color: #333;
 }
 
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card-header .message-content {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.copy-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.copy-button:hover {
+    background-color: #25a03b;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(45, 186, 78, 0.3);
+}
+
+.copy-button:active {
+    transform: scale(0.98);
+}
+
+.copy-button.copied {
+    background-color: var(--accent-color);
+    animation: copyPulse 0.3s ease-in-out;
+}
+
+.copy-button.copy-error {
+    background-color: #d1242f;
+}
+
+@keyframes copyPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
 .message-author {
     font-weight: 600;
     color: var(--primary-color);
