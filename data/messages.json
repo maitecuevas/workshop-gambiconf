@@ -1,35 +1,42 @@
 [
   {
+    "id": "msg-0",
     "name": "GitHub Copilot",
     "message": "Se funcionar, não é estúpido. Use o Copilot para adicionar sua melhor gambiarra aqui!",
     "date": "2025-11-21"
   },
   {
+    "id": "msg-1",
     "name": "pachicodes",
     "message": "Isso é um teste",
     "date": "2025-11-25"
   },
   {
+    "id": "msg-2",
     "name": "LABUBU DE TRABALHO",
     "message": "Minha gambiarra é ser de pelúcia",
     "date": "2025-11-26"
   },
   {
+    "id": "msg-3",
     "name": "Matheus",
     "message": "usar cursor pra trampar e parecer profissional",
     "date": "2025-11-27"
   },
+  {
+    "id": "msg-4",
     "name": "maitecuevas",
     "message": "Você não faz a gambiarra, você é A GAMBIARRA",
     "date": "2025-11-26"
   },
   {
+    "id": "msg-5",
     "name": "Manakinha",
     "message": "Paxixa te amo e isso não é gambiarra.",
     "date": "2025-11-30"
-  }
-,
+  },
   {
+    "id": "msg-6",
     "name": "manakinha",
     "message": "PODE DIGITAR ERRADO QUEO COPILORE ENTENTE, meu nome é manakinha",
     "date": "2025-11-30"

@@ -98,6 +98,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function getLikes(msgId) {
+        const likes = localStorage.getItem(`like_${msgId}`);
+        return likes ? parseInt(likes, 10) : 0;
+    }
+
+    function setLikes(msgId, count) {
+        localStorage.setItem(`like_${msgId}`, count.toString());
+    }
+
+    function hasUserLiked(msgId) {
+        return localStorage.getItem(`user_liked_${msgId}`) === 'true';
+    }
+
+    function setUserLiked(msgId, liked) {
+        localStorage.setItem(`user_liked_${msgId}`, liked.toString());
+    }
+
+    function createHeartIcon(filled = false) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.setAttribute('fill', filled ? '#ff7b00' : 'none');
+        svg.setAttribute('stroke', '#ff7b00');
+        svg.setAttribute('stroke-width', '2');
+        svg.setAttribute('stroke-linecap', 'round');
+        svg.setAttribute('stroke-linejoin', 'round');
+        
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z');
+        svg.appendChild(path);
+        
+        return svg;
+    }
+
     // Função para renderizar as mensagens na tela
     function renderMessages(messages) {
         messagesContainer.innerHTML = ''; // Limpa o container (remove o loading)
@@ -142,7 +175,45 @@ document.addEventListener('DOMContentLoaded', () => {
             dateSpan.textContent = msg.date;
         }
 
+        // Criar botão de like com ícone SVG
+        const msgId = msg.id || `msg-${index}`;
+        const liked = hasUserLiked(msgId);
+        const count = getLikes(msgId);
+
+        const likeButton = document.createElement('button');
+        likeButton.className = `like-button ${liked ? 'liked' : ''}`;
+        likeButton.setAttribute('aria-label', `Curtir - ${count} curtidas`);
+        
+        // Adicionar ícone SVG
+        likeButton.appendChild(createHeartIcon(liked));
+
+        // Adicionar contador
+        const countSpan = document.createElement('span');
+        countSpan.className = 'like-count';
+        countSpan.textContent = count > 0 ? count : '';
+        likeButton.appendChild(countSpan);
+
+        // Event listener para curtir/descurtir
+        likeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isLiked = hasUserLiked(msgId);
+            const currentCount = getLikes(msgId);
+            const newCount = isLiked ? currentCount - 1 : currentCount + 1;
+            
+            setUserLiked(msgId, !isLiked);
+            setLikes(msgId, newCount);
+
+            // Atualizar visual do botão
+            likeButton.className = `like-button ${!isLiked ? 'liked' : ''}`;
+            likeButton.innerHTML = '';
+            likeButton.appendChild(createHeartIcon(!isLiked));
+            countSpan.textContent = newCount > 0 ? newCount : '';
+            likeButton.appendChild(countSpan);
+            likeButton.setAttribute('aria-label', `Curtir - ${newCount} curtidas`);
+        });
+
         footer.appendChild(authorName);
+        footer.appendChild(likeButton);
         footer.appendChild(dateSpan);
 
         card.appendChild(content);
